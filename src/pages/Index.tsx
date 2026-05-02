@@ -1,16 +1,354 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+// "find your signature story" — landing page
+// Palette is locked: #f2efe9 / #3c4235 / #d7d1c6 / #fb7339 / #575349
+// DM Sans, lowercase, heavy. No black, no white, no blue, no cool grey.
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div
+      className="min-h-screen lowercase"
+      style={{
+        backgroundColor: "#f2efe9",
+        color: "#575349",
+        fontFamily: '"DM Sans", system-ui, sans-serif',
+      }}
+    >
+      <style>{`
+        .display { font-weight: 900; letter-spacing: -0.04em; line-height: 0.88; }
+        .hero-h  { font-size: clamp(3.75rem, 12.5vw, 11rem); }
+        .mega    { font-size: clamp(2.75rem, 8vw, 7.5rem); }
+        .frosted {
+          background: rgba(87,83,73,0.45);
+          backdrop-filter: blur(22px) saturate(120%);
+          -webkit-backdrop-filter: blur(22px) saturate(120%);
+        }
+        .grain {
+          background-image: radial-gradient(rgba(87,83,73,.06) 1px, transparent 1px);
+          background-size: 3px 3px;
+        }
+        .vignette {
+          background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(60,66,53,0.55) 100%);
+        }
+        .hero-bg {
+          background-image: url('https://images.unsplash.com/photo-1573497019418-b400bb3ab074?auto=format&fit=crop&w=2400&q=80');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          filter: saturate(0.85) sepia(0.18) brightness(0.78);
+        }
+        @media (max-width: 768px) { .hero-bg { background-attachment: scroll; } }
+        ::selection { background: #fb7339; color: #f2efe9; }
+      `}</style>
+
+      {/* NAVBAR — floating pill, doesn't touch edges */}
+      <header className="fixed top-4 left-4 right-4 z-50 flex items-center justify-between gap-3 pointer-events-none">
+        <div
+          className="pointer-events-auto flex items-center gap-3 rounded-full pl-2 pr-5 py-2"
+          style={{ backgroundColor: "#f2efe9", boxShadow: "0 1px 0 rgba(87,83,73,0.06)" }}
+        >
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center"
+            style={{ backgroundColor: "#3c4235" }}
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="#d7d1c6" aria-hidden>
+              <path d="M12 3c2.5 2 3.8 4.2 3.8 6.4 0 2.1-1.7 3.8-3.8 3.8s-3.8-1.7-3.8-3.8C8.2 7.2 9.5 5 12 3z" />
+              <path d="M5.2 14.2c2.7-1 5.2-1 7 0 1.8 1 2.4 3.3 1.4 5.1-1 1.8-3.3 2.4-5.1 1.4-1.8-1-2.7-3.7-3.3-6.5z" />
+              <path d="M18.8 14.2c-2.7-1-5.2-1-7 0-1.8 1-2.4 3.3-1.4 5.1 1 1.8 3.3 2.4 5.1 1.4 1.8-1 2.7-3.7 3.3-6.5z" />
+            </svg>
+          </div>
+          <div className="hidden sm:flex flex-col leading-tight">
+            <span className="text-[10px] tracking-[0.2em]" style={{ color: "rgba(87,83,73,0.6)" }}>signature</span>
+            <span className="text-[11px] tracking-[0.18em] font-medium" style={{ color: "#575349" }}>a story coach</span>
+          </div>
+        </div>
+
+        <div
+          className="pointer-events-auto flex items-center rounded-full p-1"
+          style={{ backgroundColor: "#f2efe9", boxShadow: "0 1px 0 rgba(87,83,73,0.06)" }}
+        >
+          <button
+            aria-label="menu"
+            className="w-12 h-12 rounded-full flex items-center justify-center transition"
+            style={{ color: "#575349" }}
+          >
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+              <path d="M0 1h18M0 11h18" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+          </button>
+          <a
+            href="#begin"
+            className="px-6 sm:px-8 h-12 rounded-full inline-flex items-center font-bold tracking-[0.16em] text-[12px]"
+            style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
+          >
+            begin
+          </a>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section
+        className="relative w-full overflow-hidden"
+        style={{ backgroundColor: "#3c4235", height: "100svh", minHeight: 680 }}
+      >
+        <div className="absolute inset-0 hero-bg" />
+        <div className="absolute inset-0 vignette" />
+
+        {/* Headline */}
+        <div className="absolute inset-0 flex">
+          <div className="self-center w-full px-6 sm:px-10 md:px-14 -mt-10 md:-mt-16 z-10">
+            <h1 className="display hero-h max-w-[18ch]" style={{ color: "#d7d1c6" }}>
+              find your<br />signature<br />
+              <span style={{ color: "rgba(215,209,198,0.65)" }}>story.</span>
+            </h1>
+            <p
+              className="mt-6 md:mt-8 max-w-md text-[15px] leading-relaxed"
+              style={{ color: "rgba(215,209,198,0.7)" }}
+            >
+              a personal ai story coach that asks you the questions
+              you&rsquo;ve been waiting your whole life for someone to ask.
+            </p>
+          </div>
+        </div>
+
+        {/* Layered image bleeding over headline */}
+        <div className="absolute left-[6%] md:left-[10%] -bottom-10 md:-bottom-20 w-[58%] md:w-[42%] max-w-[640px] z-20 pointer-events-none">
+          <div
+            className="rounded-[28px] overflow-hidden"
+            style={{
+              boxShadow: "0 30px 60px -20px rgba(60,66,53,0.6)",
+              border: "1px solid rgba(215,209,198,0.1)",
+            }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1400&q=80"
+              alt="someone being interviewed at a warm wooden table, soft window light"
+              className="w-full h-[260px] md:h-[360px] object-cover"
+              style={{ filter: "saturate(0.85) sepia(0.12) brightness(0.95)" }}
+            />
+          </div>
+        </div>
+
+        {/* Frosted info card */}
+        <div className="absolute right-4 md:right-8 bottom-6 md:bottom-10 z-30 frosted rounded-2xl p-4 pr-6 flex items-center gap-3 max-w-[88%]">
+          <div
+            className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+            style={{ backgroundColor: "rgba(215,209,198,0.85)" }}
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="#3c4235" aria-hidden>
+              <circle cx="12" cy="8" r="3.2" />
+              <path
+                d="M5 20c1.4-3.4 4-5 7-5s5.6 1.6 7 5"
+                stroke="#3c4235"
+                strokeWidth="1.4"
+                fill="none"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+          <div className="leading-tight">
+            <div className="text-[10px] tracking-[0.22em]" style={{ color: "rgba(215,209,198,0.8)" }}>
+              1/5 &middot; the interview
+            </div>
+            <div className="text-[13px] font-medium tracking-[0.02em]" style={{ color: "#d7d1c6" }}>
+              eight questions. one thread. your story.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2 — what it is */}
+      <section className="grain px-6 sm:px-10 md:px-14 py-28 md:py-40" style={{ backgroundColor: "#f2efe9" }}>
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-[11px] tracking-[0.28em] mb-8" style={{ color: "rgba(87,83,73,0.55)" }}>
+            &mdash; what it is
+          </div>
+          <h2 className="display mega max-w-[20ch]" style={{ color: "#575349" }}>
+            storytellers teaching<br />storytellers, the way<br />
+            <span style={{ color: "rgba(87,83,73,0.55)" }}>coaches teach coaches.</span>
+          </h2>
+          <div className="mt-16 md:mt-20 grid md:grid-cols-12 gap-10">
+            <p
+              className="md:col-start-7 md:col-span-5 text-[17px] leading-[1.7]"
+              style={{ color: "rgba(87,83,73,0.85)" }}
+            >
+              you open it. instead of staring at a blank page trying to decode your own brand,
+              you&rsquo;re interviewed by something that already knows the right questions.
+              it listens. it finds the thread. and it hands you back the one thing
+              you&rsquo;ve never quite been able to write yourself &mdash; clarity.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3 — three steps */}
+      <section className="px-6 sm:px-10 md:px-14 py-28 md:py-40" style={{ backgroundColor: "#3c4235", color: "#d7d1c6" }}>
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-[11px] tracking-[0.28em] mb-10" style={{ color: "rgba(215,209,198,0.6)" }}>
+            &mdash; how it works
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            <article
+              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between"
+              style={{ backgroundColor: "#d7d1c6", color: "#575349" }}
+            >
+              <div className="text-[12px] tracking-[0.28em]" style={{ color: "rgba(87,83,73,0.55)" }}>01</div>
+              <div>
+                <h3 className="display text-[2.6rem] md:text-[3.2rem] leading-[0.9]">it interviews<br />you.</h3>
+                <p className="mt-5 text-[15px] leading-[1.65] max-w-[28ch]" style={{ color: "rgba(87,83,73,0.8)" }}>
+                  eight to ten deep but simple questions about your turning points,
+                  your beliefs, your people, your why.
+                </p>
+              </div>
+            </article>
+            <article
+              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between"
+              style={{ backgroundColor: "#d7d1c6", color: "#575349" }}
+            >
+              <div className="text-[12px] tracking-[0.28em]" style={{ color: "rgba(87,83,73,0.55)" }}>02</div>
+              <div>
+                <h3 className="display text-[2.6rem] md:text-[3.2rem] leading-[0.9]">it finds<br />the thread.</h3>
+                <p className="mt-5 text-[15px] leading-[1.65] max-w-[28ch]" style={{ color: "rgba(87,83,73,0.8)" }}>
+                  it absorbs your language, your emotion, your unique experiences &mdash;
+                  and the line that quietly connects them all.
+                </p>
+              </div>
+            </article>
+            <article
+              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between"
+              style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
+            >
+              <div className="text-[12px] tracking-[0.28em]" style={{ color: "rgba(242,239,233,0.75)" }}>03</div>
+              <div>
+                <h3 className="display text-[2.6rem] md:text-[3.2rem] leading-[0.9]">it builds<br />your blueprint.</h3>
+                <p className="mt-5 text-[15px] leading-[1.65] max-w-[28ch]" style={{ color: "rgba(242,239,233,0.9)" }}>
+                  a personalized signature story document &mdash;
+                  yours, in your own words, ready to use anywhere.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4 — who it's for */}
+      <section className="grain px-6 sm:px-10 md:px-14 py-28 md:py-40" style={{ backgroundColor: "#f2efe9" }}>
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex items-end justify-between flex-wrap gap-8 mb-14">
+            <h2 className="display mega max-w-[16ch]" style={{ color: "#575349" }}>
+              for anyone whose<br />
+              <span style={{ color: "rgba(87,83,73,0.55)" }}>work is the message.</span>
+            </h2>
+            <div className="text-[11px] tracking-[0.28em] mb-3" style={{ color: "rgba(87,83,73,0.55)" }}>&mdash; built for</div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { tag: "the coach", h: ["stop sounding", "like the other 50,000."], p: "say something only you could say — the line that makes your ideal client stop scrolling." },
+              { tag: "the realtor", h: ["the story", "sells the house."], p: "not the credentials, not the market report. the why behind your work." },
+              { tag: "the chiropractor", h: ["trust before", "treatment."], p: "share why you got into the field and patients connect before they ever book." },
+              { tag: "the speaker", h: ["the opener", "that earns the room."], p: "the signature story behind the signature talk — the one they remember on the drive home." },
+              { tag: "the business owner", h: ["people don\u2019t buy", "products. they buy you."], p: "turn scattered life experiences into a focused brand narrative customers evangelize." },
+            ].map((c) => (
+              <div key={c.tag} className="rounded-2xl p-7" style={{ backgroundColor: "#d7d1c6" }}>
+                <div className="text-[11px] tracking-[0.24em] mb-4" style={{ color: "#fb7339" }}>{c.tag}</div>
+                <h4 className="display text-[1.9rem] leading-[0.95]" style={{ color: "#575349" }}>
+                  {c.h[0]}<br />{c.h[1]}
+                </h4>
+                <p className="mt-4 text-[14.5px] leading-[1.65]" style={{ color: "rgba(87,83,73,0.8)" }}>{c.p}</p>
+              </div>
+            ))}
+            <div
+              className="rounded-2xl p-7 flex items-end"
+              style={{ border: "1px solid rgba(87,83,73,0.15)" }}
+            >
+              <p className="display text-[1.5rem] leading-[1.05]" style={{ color: "rgba(87,83,73,0.7)" }}>
+                and anyone tired of<br />sounding like everyone<br />else in their feed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5 — blueprint deliverables */}
+      <section className="px-6 sm:px-10 md:px-14 py-28 md:py-40" style={{ backgroundColor: "#3c4235", color: "#d7d1c6" }}>
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid md:grid-cols-12 gap-10">
+            <div className="md:col-span-5">
+              <div className="text-[11px] tracking-[0.28em] mb-6" style={{ color: "rgba(215,209,198,0.6)" }}>&mdash; the deliverable</div>
+              <h2 className="display mega" style={{ color: "#d7d1c6" }}>
+                your<br />signature<br />
+                <span style={{ color: "rgba(215,209,198,0.55)" }}>story<br />blueprint.</span>
+              </h2>
+              <p className="mt-8 text-[15.5px] leading-[1.7] max-w-md" style={{ color: "rgba(215,209,198,0.75)" }}>
+                a single, deeply personal document. seven pieces. one voice. yours.
+              </p>
+            </div>
+            <ol
+              className="md:col-span-7 md:pl-10"
+              style={{ borderTop: "1px solid rgba(215,209,198,0.15)", borderBottom: "1px solid rgba(215,209,198,0.15)" }}
+            >
+              {[
+                "your origin story.",
+                "your core message.",
+                "your unique value.",
+                "your ideal client.",
+                "your content pillars.",
+                "your offer alignment.",
+                "your bio — ready to paste.",
+              ].map((label, i) => (
+                <li
+                  key={label}
+                  className="py-5 flex items-baseline gap-6"
+                  style={i > 0 ? { borderTop: "1px solid rgba(215,209,198,0.15)" } : undefined}
+                >
+                  <span className="text-[12px] tracking-[0.28em] w-8" style={{ color: "rgba(215,209,198,0.5)" }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className="display text-[1.7rem] md:text-[2rem]"
+                    style={{ color: i === 6 ? "#fb7339" : "#d7d1c6" }}
+                  >
+                    {label}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* CLOSING CTA */}
+      <section id="begin" className="grain px-6 sm:px-10 md:px-14 py-32 md:py-44" style={{ backgroundColor: "#f2efe9" }}>
+        <div className="max-w-[1400px] mx-auto">
+          <h2 className="display hero-h max-w-[16ch]" style={{ color: "#575349" }}>
+            you go in<br />not knowing.<br />
+            <span style={{ color: "rgba(87,83,73,0.55)" }}>you come out</span><br />
+            knowing exactly<br />who you are.
+          </h2>
+
+          <div className="mt-14 flex flex-wrap items-center gap-4">
+            <a
+              href="#"
+              className="rounded-full px-8 h-14 inline-flex items-center font-bold tracking-[0.18em] text-[13px]"
+              style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
+            >
+              begin your interview &nbsp;&rarr;
+            </a>
+            <span className="text-[12px] tracking-[0.22em]" style={{ color: "rgba(87,83,73,0.55)" }}>
+              ~ 12 minutes &middot; one sitting &middot; entirely yours
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <footer
+        className="px-6 sm:px-10 md:px-14 py-10 flex flex-wrap items-center justify-between gap-4 text-[12px] tracking-[0.2em]"
+        style={{ backgroundColor: "#3c4235", color: "rgba(215,209,198,0.7)" }}
+      >
+        <span>&copy; signature &mdash; a story coach</span>
+        <span style={{ color: "rgba(215,209,198,0.45)" }}>made slowly. on purpose.</span>
+      </footer>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;

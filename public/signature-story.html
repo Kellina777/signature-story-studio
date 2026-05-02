@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>find your signature story — a personal ai story coach</title>
+<meta name="description" content="a personal ai story coach that interviews you and hands back the one thing you've been missing — clarity about your own story." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['"DM Sans"','system-ui','sans-serif'] },
+        colors: {
+          parchment: '#f2efe9',
+          forest:    '#3c4235',
+          card:      '#d7d1c6',
+          ember:     '#fb7339',
+          ink:       '#575349',
+          bone:      '#d7d1c6',
+        },
+      }
+    }
+  }
+</script>
+<style>
+  html,body{background:#f2efe9;color:#575349;font-family:"DM Sans",system-ui,sans-serif;font-optical-sizing:auto;}
+  .lower{text-transform:lowercase;}
+  .display{font-weight:900;letter-spacing:-0.04em;line-height:0.88;}
+  .hero-h{font-size:clamp(3.75rem,12.5vw,11rem);}
+  .mega{font-size:clamp(2.75rem,8vw,7.5rem);}
+  .frosted{background:rgba(87,83,73,0.45);backdrop-filter:blur(22px) saturate(120%);-webkit-backdrop-filter:blur(22px) saturate(120%);}
+  .grain{background-image:radial-gradient(rgba(87,83,73,.06) 1px, transparent 1px);background-size:3px 3px;}
+  .vignette{background:radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(60,66,53,0.55) 100%);}
+  .hero-bg{
+    background-image:url('https://images.unsplash.com/photo-1573497019418-b400bb3ab074?auto=format&fit=crop&w=2400&q=80');
+    background-size:cover;background-position:center;background-attachment:fixed;
+    filter:saturate(0.85) sepia(0.18) brightness(0.78);
+  }
+  /* prevent attachment fixed jank on mobile */
+  @media (max-width: 768px){ .hero-bg{ background-attachment: scroll; } }
+  .pill{border-radius:9999px;}
+  .tile{background:#d7d1c6;}
+  ::selection{background:#fb7339;color:#f2efe9;}
+</style>
+</head>
+<body class="lower">
+
+<!-- NAVBAR : floating pill, doesn't touch edges -->
+<header class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between gap-3 pointer-events-none">
+  <div class="pointer-events-auto flex items-center gap-3 bg-parchment pill pl-2 pr-5 py-2 shadow-[0_1px_0_rgba(87,83,73,0.06)]">
+    <div class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center">
+      <!-- pebble-ish trefoil mark in bone -->
+      <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="#d7d1c6" stroke-width="1.6">
+        <path d="M12 3c2.5 2 3.8 4.2 3.8 6.4 0 2.1-1.7 3.8-3.8 3.8s-3.8-1.7-3.8-3.8C8.2 7.2 9.5 5 12 3z" fill="#d7d1c6"/>
+        <path d="M5.2 14.2c2.7-1 5.2-1 7 0 1.8 1 2.4 3.3 1.4 5.1-1 1.8-3.3 2.4-5.1 1.4-1.8-1-2.7-3.7-3.3-6.5z" fill="#d7d1c6"/>
+        <path d="M18.8 14.2c-2.7-1-5.2-1-7 0-1.8 1-2.4 3.3-1.4 5.1 1 1.8 3.3 2.4 5.1 1.4 1.8-1 2.7-3.7 3.3-6.5z" fill="#d7d1c6"/>
+      </svg>
+    </div>
+    <div class="hidden sm:flex flex-col leading-tight">
+      <span class="text-[10px] tracking-[0.2em] text-ink/60">signature</span>
+      <span class="text-[11px] tracking-[0.18em] text-ink font-medium">a story coach</span>
+    </div>
+  </div>
+
+  <div class="pointer-events-auto flex items-center bg-parchment pill p-1 shadow-[0_1px_0_rgba(87,83,73,0.06)]">
+    <button aria-label="menu" class="w-12 h-12 rounded-full flex items-center justify-center text-ink hover:bg-card transition">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M0 1h18M0 11h18" stroke="currentColor" stroke-width="1.4"/></svg>
+    </button>
+    <a href="#begin" class="bg-ember text-parchment px-6 sm:px-8 h-12 rounded-full inline-flex items-center font-bold tracking-[0.16em] text-[12px]">begin</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative h-[100svh] min-h-[680px] w-full overflow-hidden bg-forest">
+  <!-- background image -->
+  <div class="absolute inset-0 hero-bg"></div>
+  <div class="absolute inset-0 vignette"></div>
+
+  <!-- HEADLINE — slightly above center, left aligned -->
+  <div class="absolute inset-0 flex">
+    <div class="self-center w-full px-6 sm:px-10 md:px-14 -mt-10 md:-mt-16 z-10">
+      <h1 class="display hero-h text-bone max-w-[18ch]">
+        find your<br/>signature<br/><span class="text-bone/65">story.</span>
+      </h1>
+      <p class="mt-6 md:mt-8 text-bone/70 max-w-md text-[15px] leading-relaxed">
+        a personal ai story coach that asks you the questions
+        you&rsquo;ve been waiting your whole life for someone to ask.
+      </p>
+    </div>
+  </div>
+
+  <!-- product / scene image bleeding OVER the bottom of the headline -->
+  <div class="absolute left-[6%] md:left-[10%] bottom-[-40px] md:bottom-[-80px] w-[58%] md:w-[42%] max-w-[640px] z-20 pointer-events-none">
+    <div class="rounded-[28px] overflow-hidden shadow-[0_30px_60px_-20px_rgba(60,66,53,0.6)] border border-bone/10">
+      <img
+        src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1400&q=80"
+        alt="someone being interviewed at a warm wooden table, soft window light"
+        class="w-full h-[260px] md:h-[360px] object-cover"
+        style="filter:saturate(0.85) sepia(0.12) brightness(0.95);"
+      />
+    </div>
+  </div>
+
+  <!-- frosted card bottom-right -->
+  <div class="absolute right-4 md:right-8 bottom-6 md:bottom-10 z-30 frosted rounded-2xl p-4 pr-6 flex items-center gap-3 max-w-[88%]">
+    <div class="w-11 h-11 rounded-xl bg-bone/85 flex items-center justify-center shrink-0">
+      <svg viewBox="0 0 24 24" class="w-5 h-5" fill="#3c4235">
+        <circle cx="12" cy="8" r="3.2"/>
+        <path d="M5 20c1.4-3.4 4-5 7-5s5.6 1.6 7 5" stroke="#3c4235" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="leading-tight">
+      <div class="text-[10px] tracking-[0.22em] text-bone/80">1/5 &middot; the interview</div>
+      <div class="text-[13px] text-bone font-medium tracking-[0.02em]">eight questions. one thread. your story.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 — what it is -->
+<section class="bg-parchment grain px-6 sm:px-10 md:px-14 py-28 md:py-40">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="text-[11px] tracking-[0.28em] text-ink/55 mb-8">&mdash; what it is</div>
+    <h2 class="display mega text-ink max-w-[20ch]">
+      storytellers teaching<br/>storytellers, the way<br/>
+      <span class="text-ink/55">coaches teach coaches.</span>
+    </h2>
+    <div class="mt-16 md:mt-20 grid md:grid-cols-12 gap-10">
+      <p class="md:col-start-7 md:col-span-5 text-[17px] leading-[1.7] text-ink/85">
+        you open it. instead of staring at a blank page trying to decode your own brand,
+        you&rsquo;re interviewed by something that already knows the right questions.
+        it listens. it finds the thread. and it hands you back the one thing
+        you&rsquo;ve never quite been able to write yourself &mdash; clarity.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 — three steps -->
+<section class="bg-forest text-bone px-6 sm:px-10 md:px-14 py-28 md:py-40">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="text-[11px] tracking-[0.28em] text-bone/60 mb-10">&mdash; how it works</div>
+    <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+      <!-- step -->
+      <article class="tile rounded-[28px] p-8 md:p-10 text-ink min-h-[360px] flex flex-col justify-between">
+        <div class="text-[12px] tracking-[0.28em] text-ink/55">01</div>
+        <div>
+          <h3 class="display text-[2.6rem] md:text-[3.2rem] leading-[0.9]">it interviews<br/>you.</h3>
+          <p class="mt-5 text-[15px] leading-[1.65] text-ink/80 max-w-[28ch]">
+            eight to ten deep but simple questions about your turning points,
+            your beliefs, your people, your why.
+          </p>
+        </div>
+      </article>
+      <article class="tile rounded-[28px] p-8 md:p-10 text-ink min-h-[360px] flex flex-col justify-between">
+        <div class="text-[12px] tracking-[0.28em] text-ink/55">02</div>
+        <div>
+          <h3 class="display text-[2.6rem] md:text-[3.2rem] leading-[0.9]">it finds<br/>the thread.</h3>
+          <p class="mt-5 text-[15px] leading-[1.65] text-ink/80 max-w-[28ch]">
+            it absorbs your language, your emotion, your unique experiences &mdash;
+            and the line that quietly connects them all.
+          </p>
+        </div>
+      </article>
+      <article class="bg-ember rounded-[28px] p-8 md:p-10 text-parchment min-h-[360px] flex flex-col justify-between">
+        <div class="text-[12px] tracking-[0.28em] text-parchment/75">03</div>
+        <div>
+          <h3 class="display text-[2.6rem] md:text-[3.2rem] leading-[0.9]">it builds<br/>your blueprint.</h3>
+          <p class="mt-5 text-[15px] leading-[1.65] text-parchment/90 max-w-[28ch]">
+            a personalized signature story document &mdash;
+            yours, in your own words, ready to use anywhere.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — who it's for -->
+<section class="bg-parchment grain px-6 sm:px-10 md:px-14 py-28 md:py-40">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="flex items-end justify-between flex-wrap gap-8 mb-14">
+      <h2 class="display mega text-ink max-w-[16ch]">
+        for anyone whose<br/><span class="text-ink/55">work is the message.</span>
+      </h2>
+      <div class="text-[11px] tracking-[0.28em] text-ink/55 mb-3">&mdash; built for</div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="tile rounded-2xl p-7">
+        <div class="text-[11px] tracking-[0.24em] text-ember mb-4">the coach</div>
+        <h4 class="display text-[1.9rem] leading-[0.95] text-ink">stop sounding<br/>like the other 50,000.</h4>
+        <p class="mt-4 text-[14.5px] text-ink/80 leading-[1.65]">say something only you could say &mdash; the line that makes your ideal client stop scrolling.</p>
+      </div>
+      <div class="tile rounded-2xl p-7">
+        <div class="text-[11px] tracking-[0.24em] text-ember mb-4">the realtor</div>
+        <h4 class="display text-[1.9rem] leading-[0.95] text-ink">the story<br/>sells the house.</h4>
+        <p class="mt-4 text-[14.5px] text-ink/80 leading-[1.65]">not the credentials, not the market report. the why behind your work.</p>
+      </div>
+      <div class="tile rounded-2xl p-7">
+        <div class="text-[11px] tracking-[0.24em] text-ember mb-4">the chiropractor</div>
+        <h4 class="display text-[1.9rem] leading-[0.95] text-ink">trust before<br/>treatment.</h4>
+        <p class="mt-4 text-[14.5px] text-ink/80 leading-[1.65]">share why you got into the field and patients connect before they ever book.</p>
+      </div>
+      <div class="tile rounded-2xl p-7">
+        <div class="text-[11px] tracking-[0.24em] text-ember mb-4">the speaker</div>
+        <h4 class="display text-[1.9rem] leading-[0.95] text-ink">the opener<br/>that earns the room.</h4>
+        <p class="mt-4 text-[14.5px] text-ink/80 leading-[1.65]">the signature story behind the signature talk &mdash; the one they remember on the drive home.</p>
+      </div>
+      <div class="tile rounded-2xl p-7">
+        <div class="text-[11px] tracking-[0.24em] text-ember mb-4">the business owner</div>
+        <h4 class="display text-[1.9rem] leading-[0.95] text-ink">people don&rsquo;t buy<br/>products. they buy you.</h4>
+        <p class="mt-4 text-[14.5px] text-ink/80 leading-[1.65]">turn scattered life experiences into a focused brand narrative customers evangelize.</p>
+      </div>
+      <div class="rounded-2xl p-7 border border-ink/15 flex items-end">
+        <p class="display text-[1.5rem] leading-[1.05] text-ink/70">
+          and anyone tired of<br/>sounding like everyone<br/>else in their feed.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 — blueprint deliverables -->
+<section class="bg-forest text-bone px-6 sm:px-10 md:px-14 py-28 md:py-40">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-5">
+        <div class="text-[11px] tracking-[0.28em] text-bone/60 mb-6">&mdash; the deliverable</div>
+        <h2 class="display mega text-bone">
+          your<br/>signature<br/><span class="text-bone/55">story<br/>blueprint.</span>
+        </h2>
+        <p class="mt-8 text-bone/75 text-[15.5px] leading-[1.7] max-w-md">
+          a single, deeply personal document. seven pieces. one voice. yours.
+        </p>
+      </div>
+      <ol class="md:col-span-7 md:pl-10 divide-y divide-bone/15 border-y border-bone/15">
+        <li class="py-5 flex items-baseline gap-6"><span class="text-[12px] tracking-[0.28em] text-bone/50 w-8">01</span><span class="display text-[1.7rem] md:text-[2rem] text-bone">your origin story.</span></li>
+        <li class="py-5 flex items-baseline gap-6"><span class="text-[12px] tracking-[0.28em] text-bone/50 w-8">02</span><span class="display text-[1.7rem] md:text-[2rem] text-bone">your core message.</span></li>
+        <li class="py-5 flex items-baseline gap-6"><span class="text-[12px] tracking-[0.28em] text-bone/50 w-8">03</span><span class="display text-[1.7rem] md:text-[2rem] text-bone">your unique value.</span></li>
+        <li class="py-5 flex items-baseline gap-6"><span class="text-[12px] tracking-[0.28em] text-bone/50 w-8">04</span><span class="display text-[1.7rem] md:text-[2rem] text-bone">your ideal client.</span></li>
+        <li class="py-5 flex items-baseline gap-6"><span class="text-[12px] tracking-[0.28em] text-bone/50 w-8">05</span><span class="display text-[1.7rem] md:text-[2rem] text-bone">your content pillars.</span></li>
+        <li class="py-5 flex items-baseline gap-6"><span class="text-[12px] tracking-[0.28em] text-bone/50 w-8">06</span><span class="display text-[1.7rem] md:text-[2rem] text-bone">your offer alignment.</span></li>
+        <li class="py-5 flex items-baseline gap-6"><span class="text-[12px] tracking-[0.28em] text-bone/50 w-8">07</span><span class="display text-[1.7rem] md:text-[2rem] text-ember">your bio &mdash; ready to paste.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section id="begin" class="bg-parchment grain px-6 sm:px-10 md:px-14 py-32 md:py-44">
+  <div class="max-w-[1400px] mx-auto">
+    <h2 class="display hero-h text-ink max-w-[16ch]">
+      you go in<br/>not knowing.<br/>
+      <span class="text-ink/55">you come out</span><br/>
+      knowing exactly<br/>who you are.
+    </h2>
+
+    <div class="mt-14 flex flex-wrap items-center gap-4">
+      <a href="#" class="bg-ember text-parchment pill px-8 h-14 inline-flex items-center font-bold tracking-[0.18em] text-[13px]">
+        begin your interview &nbsp;&rarr;
+      </a>
+      <span class="text-[12px] tracking-[0.22em] text-ink/55">~ 12 minutes &middot; one sitting &middot; entirely yours</span>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-forest text-bone/70 px-6 sm:px-10 md:px-14 py-10 flex flex-wrap items-center justify-between gap-4 text-[12px] tracking-[0.2em]">
+  <span>&copy; signature &mdash; a story coach</span>
+  <span class="text-bone/45">made slowly. on purpose.</span>
+</footer>
+
+</body>
+</html>
