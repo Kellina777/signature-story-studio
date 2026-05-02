@@ -229,6 +229,120 @@ const Index = () => {
         </div>
       </section>
 
+      {/* SECTION 3.5 — features */}
+      <section className="grain px-6 sm:px-10 md:px-14 py-28 md:py-40" style={{ backgroundColor: "#f2efe9" }}>
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex items-end justify-between flex-wrap gap-8 mb-14">
+            <h2 className="display mega max-w-[16ch]" style={{ color: "#575349" }}>
+              what it actually<br />
+              <span style={{ color: "rgba(87,83,73,0.55)" }}>does for you.</span>
+            </h2>
+            <div className="text-[11px] tracking-[0.28em] mb-3" style={{ color: "rgba(87,83,73,0.55)" }}>&mdash; the features</div>
+          </div>
+
+          <div className="grid md:grid-cols-6 gap-5">
+            {/* big tile — guided interview */}
+            <article
+              className="md:col-span-4 rounded-[28px] p-8 md:p-12 flex flex-col justify-between min-h-[340px]"
+              style={{ backgroundColor: "#3c4235", color: "#d7d1c6" }}
+            >
+              <div className="text-[11px] tracking-[0.28em]" style={{ color: "rgba(215,209,198,0.6)" }}>01 &middot; the guided interview</div>
+              <div>
+                <h3 className="display text-[2.4rem] md:text-[3.4rem] leading-[0.92]" style={{ color: "#d7d1c6" }}>
+                  the questions you&rsquo;ve<br />
+                  <span style={{ color: "rgba(215,209,198,0.6)" }}>been waiting for.</span>
+                </h3>
+                <p className="mt-6 text-[15px] md:text-[16px] leading-[1.7] max-w-[44ch]" style={{ color: "rgba(215,209,198,0.78)" }}>
+                  a calm, conversational interview that pulls turning points,
+                  beliefs and the why behind your work &mdash; one question at a time, your pace.
+                </p>
+              </div>
+            </article>
+
+            {/* voice capture */}
+            <article
+              className="md:col-span-2 rounded-[28px] p-8 flex flex-col justify-between min-h-[340px]"
+              style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
+            >
+              <div className="text-[11px] tracking-[0.28em]" style={{ color: "rgba(242,239,233,0.8)" }}>02 &middot; your voice</div>
+              <div>
+                <h3 className="display text-[2rem] md:text-[2.4rem] leading-[0.95]">
+                  it learns<br />how you talk.
+                </h3>
+                <p className="mt-4 text-[14.5px] leading-[1.65]" style={{ color: "rgba(242,239,233,0.92)" }}>
+                  rhythm, slang, the phrases only you use &mdash; preserved, not polished out.
+                </p>
+              </div>
+            </article>
+
+            {/* thread finder */}
+            <article className="md:col-span-2 rounded-2xl p-7 min-h-[260px] flex flex-col justify-between" style={{ backgroundColor: "#d7d1c6" }}>
+              <div className="text-[11px] tracking-[0.24em]" style={{ color: "#fb7339" }}>03 &middot; the thread</div>
+              <div>
+                <h4 className="display text-[1.8rem] leading-[0.95]" style={{ color: "#575349" }}>
+                  finds the line<br />you couldn&rsquo;t see.
+                </h4>
+                <p className="mt-3 text-[14px] leading-[1.6]" style={{ color: "rgba(87,83,73,0.8)" }}>
+                  connects scattered moments into one through-line that runs across everything you do.
+                </p>
+              </div>
+            </article>
+
+            {/* blueprint document */}
+            <article className="md:col-span-2 rounded-2xl p-7 min-h-[260px] flex flex-col justify-between" style={{ backgroundColor: "#d7d1c6" }}>
+              <div className="text-[11px] tracking-[0.24em]" style={{ color: "#fb7339" }}>04 &middot; the blueprint</div>
+              <div>
+                <h4 className="display text-[1.8rem] leading-[0.95]" style={{ color: "#575349" }}>
+                  a 7-part<br />story document.
+                </h4>
+                <p className="mt-3 text-[14px] leading-[1.6]" style={{ color: "rgba(87,83,73,0.8)" }}>
+                  origin, message, value, client, pillars, offer, bio &mdash; one place, ready to use.
+                </p>
+              </div>
+            </article>
+
+            {/* ready-to-paste bio */}
+            <article className="md:col-span-2 rounded-2xl p-7 min-h-[260px] flex flex-col justify-between" style={{ backgroundColor: "#d7d1c6" }}>
+              <div className="text-[11px] tracking-[0.24em]" style={{ color: "#fb7339" }}>05 &middot; ready to paste</div>
+              <div>
+                <h4 className="display text-[1.8rem] leading-[0.95]" style={{ color: "#575349" }}>
+                  a bio &amp; one-liner<br />you&rsquo;d actually use.
+                </h4>
+                <p className="mt-3 text-[14px] leading-[1.6]" style={{ color: "rgba(87,83,73,0.8)" }}>
+                  drop into linkedin, instagram, sales pages, intro emails &mdash; today.
+                </p>
+              </div>
+            </article>
+
+            {/* content pillars */}
+            <article className="md:col-span-3 rounded-2xl p-7 min-h-[220px] flex flex-col justify-between" style={{ backgroundColor: "#d7d1c6" }}>
+              <div className="text-[11px] tracking-[0.24em]" style={{ color: "#fb7339" }}>06 &middot; content pillars</div>
+              <div>
+                <h4 className="display text-[1.8rem] leading-[0.95]" style={{ color: "#575349" }}>
+                  never wonder<br />what to post about again.
+                </h4>
+                <p className="mt-3 text-[14px] leading-[1.6]" style={{ color: "rgba(87,83,73,0.8)" }}>
+                  3&ndash;5 themes pulled from your story that fuel months of on-brand content.
+                </p>
+              </div>
+            </article>
+
+            {/* re-interview */}
+            <article className="md:col-span-3 rounded-2xl p-7 min-h-[220px] flex flex-col justify-between" style={{ backgroundColor: "#d7d1c6" }}>
+              <div className="text-[11px] tracking-[0.24em]" style={{ color: "#fb7339" }}>07 &middot; you, evolving</div>
+              <div>
+                <h4 className="display text-[1.8rem] leading-[0.95]" style={{ color: "#575349" }}>
+                  re-interview as<br />you grow.
+                </h4>
+                <p className="mt-3 text-[14px] leading-[1.6]" style={{ color: "rgba(87,83,73,0.8)" }}>
+                  your story isn&rsquo;t static. come back, add chapters, and the blueprint updates with you.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       {/* SECTION 4 — who it's for */}
       <section className="grain px-6 sm:px-10 md:px-14 py-28 md:py-40" style={{ backgroundColor: "#f2efe9" }}>
         <div className="max-w-[1400px] mx-auto">
