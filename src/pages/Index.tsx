@@ -229,7 +229,7 @@ const Index = () => {
               className="display mega max-w-[20ch] parallax-headline"
               style={{ color: "#575349", willChange: "transform" }}
             >
-              storytellers teaching<br />storytellers, the way<br />
+              teaching<br />storytellers the way<br />
               <span
                 ref={softRef}
                 className="parallax-soft inline-block"
