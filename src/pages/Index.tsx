@@ -1,9 +1,53 @@
 // "find your signature story" — landing page
 // Palette is locked: #f2efe9 / #3c4235 / #d7d1c6 / #fb7339 / #575349
 // DM Sans, lowercase, heavy. No black, no white, no blue, no cool grey.
+import { useEffect, useRef } from "react";
 import heroTedTalk from "@/assets/hero-tedtalk.jpg";
 
 const Index = () => {
+  const stageRef = useRef<HTMLElement | null>(null);
+  const headlineRef = useRef<HTMLHeadingElement | null>(null);
+  const softRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const stage = stageRef.current;
+      const headline = headlineRef.current;
+      const soft = softRef.current;
+      if (!stage || !headline) return;
+      const rect = stage.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // progress: 0 when stage top hits viewport bottom, 1 when stage bottom hits viewport top
+      const total = rect.height + vh;
+      const p = Math.min(1, Math.max(0, (vh - rect.top) / total));
+      // headline drifts up; soft line drifts down with slight fade-in
+      const yHead = (0.5 - p) * 220; // px
+      const ySoft = (p - 0.5) * 140;
+      const opSoft = 0.55 + p * 0.45;
+      headline.style.transform = `translate3d(0, ${yHead}px, 0)`;
+      if (soft) {
+        soft.style.transform = `translate3d(0, ${ySoft}px, 0)`;
+        soft.style.opacity = String(Math.min(1, opSoft));
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <div
       className="min-h-screen lowercase"
@@ -171,6 +215,7 @@ const Index = () => {
 
       {/* SECTION 2 — what it is (parallax) */}
       <section
+        ref={stageRef}
         className="grain px-6 sm:px-10 md:px-14 parallax-stage"
         style={{ backgroundColor: "#f2efe9", minHeight: "180vh", paddingTop: "12vh", paddingBottom: "20vh" }}
       >
@@ -179,9 +224,17 @@ const Index = () => {
             &mdash; what it is
           </div>
           <div className="parallax-sticky">
-            <h2 className="display mega max-w-[20ch] parallax-headline" style={{ color: "#575349" }}>
+            <h2
+              ref={headlineRef}
+              className="display mega max-w-[20ch] parallax-headline"
+              style={{ color: "#575349", willChange: "transform" }}
+            >
               storytellers teaching<br />storytellers, the way<br />
-              <span className="parallax-soft inline-block" style={{ color: "rgba(87,83,73,0.55)" }}>
+              <span
+                ref={softRef}
+                className="parallax-soft inline-block"
+                style={{ color: "rgba(87,83,73,0.55)", willChange: "transform, opacity" }}
+              >
                 coaches teach coaches.
               </span>
             </h2>
