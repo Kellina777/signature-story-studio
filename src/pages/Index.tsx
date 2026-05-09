@@ -37,6 +37,38 @@ const Index = () => {
         }
         @media (max-width: 768px) { .hero-bg { background-attachment: scroll; } }
         ::selection { background: #fb7339; color: #f2efe9; }
+
+        /* parallax section 2 — sticky heading + scroll-driven drift */
+        .parallax-stage { position: relative; }
+        .parallax-sticky {
+          position: sticky;
+          top: 18vh;
+          will-change: transform;
+        }
+        @supports (animation-timeline: view()) {
+          .parallax-headline {
+            animation: drift-up linear both;
+            animation-timeline: view();
+            animation-range: cover 0% cover 100%;
+          }
+          .parallax-soft {
+            animation: drift-down linear both;
+            animation-timeline: view();
+            animation-range: cover 0% cover 100%;
+          }
+          @keyframes drift-up {
+            from { transform: translate3d(0, 12vh, 0); }
+            to   { transform: translate3d(0, -14vh, 0); }
+          }
+          @keyframes drift-down {
+            from { transform: translate3d(0, -4vh, 0); opacity: .6; }
+            to   { transform: translate3d(0, 8vh, 0); opacity: 1; }
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .parallax-headline, .parallax-soft { animation: none !important; }
+          .parallax-sticky { position: static; }
+        }
       `}</style>
 
       {/* NAVBAR — floating pill, doesn't touch edges */}
@@ -155,17 +187,24 @@ const Index = () => {
         </div>
       </section>
 
-      {/* SECTION 2 — what it is */}
-      <section className="grain px-6 sm:px-10 md:px-14 py-28 md:py-40" style={{ backgroundColor: "#f2efe9" }}>
+      {/* SECTION 2 — what it is (parallax) */}
+      <section
+        className="grain px-6 sm:px-10 md:px-14 parallax-stage"
+        style={{ backgroundColor: "#f2efe9", minHeight: "180vh", paddingTop: "12vh", paddingBottom: "20vh" }}
+      >
         <div className="max-w-[1400px] mx-auto">
           <div className="text-[11px] tracking-[0.28em] mb-8" style={{ color: "rgba(87,83,73,0.55)" }}>
             &mdash; what it is
           </div>
-          <h2 className="display mega max-w-[20ch]" style={{ color: "#575349" }}>
-            storytellers teaching<br />storytellers, the way<br />
-            <span style={{ color: "rgba(87,83,73,0.55)" }}>coaches teach coaches.</span>
-          </h2>
-          <div className="mt-16 md:mt-20 grid md:grid-cols-12 gap-10">
+          <div className="parallax-sticky">
+            <h2 className="display mega max-w-[20ch] parallax-headline" style={{ color: "#575349" }}>
+              storytellers teaching<br />storytellers, the way<br />
+              <span className="parallax-soft inline-block" style={{ color: "rgba(87,83,73,0.55)" }}>
+                coaches teach coaches.
+              </span>
+            </h2>
+          </div>
+          <div className="mt-[55vh] md:mt-[60vh] grid md:grid-cols-12 gap-10">
             <p
               className="md:col-start-7 md:col-span-5 text-[17px] leading-[1.7]"
               style={{ color: "rgba(87,83,73,0.85)" }}
