@@ -300,7 +300,8 @@ const Index = () => {
               </div>
             </article>
             <article
-              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between"
+              data-parallax="0.22"
+              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between will-change-transform"
               style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
             >
               <div className="text-[12px] tracking-[0.28em]" style={{ color: "rgba(242,239,233,0.75)" }}>03</div>
