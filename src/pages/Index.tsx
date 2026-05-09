@@ -161,13 +161,13 @@ const Index = () => {
               <path d="M0 1h18M0 11h18" stroke="currentColor" strokeWidth="1.4" />
             </svg>
           </button>
-          <a
-            href="#begin"
+          <Link
+            to="/interview"
             className="px-6 sm:px-8 h-12 rounded-full inline-flex items-center font-bold tracking-[0.16em] text-[12px]"
             style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
           >
             begin
-          </a>
+          </Link>
         </div>
       </header>
 
