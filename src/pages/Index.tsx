@@ -2,6 +2,7 @@
 // Palette is locked: #f2efe9 / #3c4235 / #d7d1c6 / #fb7339 / #575349
 // DM Sans, lowercase, heavy. No black, no white, no blue, no cool grey.
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import heroTedTalk from "@/assets/hero-tedtalk.jpg";
 
 const Index = () => {
@@ -161,13 +162,13 @@ const Index = () => {
               <path d="M0 1h18M0 11h18" stroke="currentColor" strokeWidth="1.4" />
             </svg>
           </button>
-          <a
-            href="#begin"
+          <Link
+            to="/interview"
             className="px-6 sm:px-8 h-12 rounded-full inline-flex items-center font-bold tracking-[0.16em] text-[12px]"
             style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
           >
             begin
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -528,13 +529,13 @@ const Index = () => {
           </h2>
 
           <div className="mt-14 flex flex-wrap items-center gap-4">
-            <a
-              href="#"
+            <Link
+              to="/interview"
               className="rounded-full px-8 h-14 inline-flex items-center font-bold tracking-[0.18em] text-[13px]"
               style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
             >
               begin your interview &nbsp;&rarr;
-            </a>
+            </Link>
             <span className="text-[12px] tracking-[0.22em]" style={{ color: "rgba(87,83,73,0.55)" }}>
               ~ 12 minutes &middot; one sitting &middot; entirely yours
             </span>
