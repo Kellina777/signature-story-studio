@@ -529,13 +529,13 @@ const Index = () => {
           </h2>
 
           <div className="mt-14 flex flex-wrap items-center gap-4">
-            <a
-              href="#"
+            <Link
+              to="/interview"
               className="rounded-full px-8 h-14 inline-flex items-center font-bold tracking-[0.18em] text-[13px]"
               style={{ backgroundColor: "#fb7339", color: "#f2efe9" }}
             >
               begin your interview &nbsp;&rarr;
-            </a>
+            </Link>
             <span className="text-[12px] tracking-[0.22em]" style={{ color: "rgba(87,83,73,0.55)" }}>
               ~ 12 minutes &middot; one sitting &middot; entirely yours
             </span>
