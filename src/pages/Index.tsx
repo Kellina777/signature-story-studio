@@ -121,7 +121,7 @@ const Index = () => {
         className="relative w-full overflow-hidden"
         style={{ backgroundColor: "#3c4235", height: "100svh", minHeight: 680 }}
       >
-        <div className="absolute inset-0 hero-bg" />
+        <div className="absolute inset-0 hero-bg" style={{ backgroundImage: `url(${heroTedTalk})` }} />
         <div className="absolute inset-0 vignette" />
 
         {/* Headline */}
