@@ -215,6 +215,7 @@ const Index = () => {
 
       {/* SECTION 2 — what it is (parallax) */}
       <section
+        ref={stageRef}
         className="grain px-6 sm:px-10 md:px-14 parallax-stage"
         style={{ backgroundColor: "#f2efe9", minHeight: "180vh", paddingTop: "12vh", paddingBottom: "20vh" }}
       >
@@ -223,9 +224,17 @@ const Index = () => {
             &mdash; what it is
           </div>
           <div className="parallax-sticky">
-            <h2 className="display mega max-w-[20ch] parallax-headline" style={{ color: "#575349" }}>
+            <h2
+              ref={headlineRef}
+              className="display mega max-w-[20ch] parallax-headline"
+              style={{ color: "#575349", willChange: "transform" }}
+            >
               storytellers teaching<br />storytellers, the way<br />
-              <span className="parallax-soft inline-block" style={{ color: "rgba(87,83,73,0.55)" }}>
+              <span
+                ref={softRef}
+                className="parallax-soft inline-block"
+                style={{ color: "rgba(87,83,73,0.55)", willChange: "transform, opacity" }}
+              >
                 coaches teach coaches.
               </span>
             </h2>
