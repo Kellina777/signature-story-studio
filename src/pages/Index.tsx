@@ -13,26 +13,37 @@ const Index = () => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    const els = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-parallax]")
+    );
+
     let raf = 0;
     const update = () => {
       raf = 0;
+      const vh = window.innerHeight;
       const stage = stageRef.current;
       const headline = headlineRef.current;
       const soft = softRef.current;
-      if (!stage || !headline) return;
-      const rect = stage.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // progress: 0 when stage top hits viewport bottom, 1 when stage bottom hits viewport top
-      const total = rect.height + vh;
-      const p = Math.min(1, Math.max(0, (vh - rect.top) / total));
-      // headline drifts up; soft line drifts down with slight fade-in
-      const yHead = (0.5 - p) * 220; // px
-      const ySoft = (p - 0.5) * 140;
-      const opSoft = 0.55 + p * 0.45;
-      headline.style.transform = `translate3d(0, ${yHead}px, 0)`;
-      if (soft) {
-        soft.style.transform = `translate3d(0, ${ySoft}px, 0)`;
-        soft.style.opacity = String(Math.min(1, opSoft));
+      if (stage && headline) {
+        const rect = stage.getBoundingClientRect();
+        const total = rect.height + vh;
+        const p = Math.min(1, Math.max(0, (vh - rect.top) / total));
+        const yHead = (0.5 - p) * 220;
+        const ySoft = (p - 0.5) * 140;
+        const opSoft = 0.55 + p * 0.45;
+        headline.style.transform = `translate3d(0, ${yHead}px, 0)`;
+        if (soft) {
+          soft.style.transform = `translate3d(0, ${ySoft}px, 0)`;
+          soft.style.opacity = String(Math.min(1, opSoft));
+        }
+      }
+      for (const el of els) {
+        const speed = parseFloat(el.dataset.parallax || "0.15");
+        const r = el.getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        const delta = center - vh / 2;
+        const y = -delta * speed;
+        el.style.transform = `translate3d(0, ${y}px, 0)`;
       }
     };
     const onScroll = () => {
