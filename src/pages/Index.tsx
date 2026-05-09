@@ -2,6 +2,7 @@
 // Palette is locked: #f2efe9 / #3c4235 / #d7d1c6 / #fb7339 / #575349
 // DM Sans, lowercase, heavy. No black, no white, no blue, no cool grey.
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import heroTedTalk from "@/assets/hero-tedtalk.jpg";
 
 const Index = () => {
