@@ -141,24 +141,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Layered image bleeding over headline */}
-        <div className="absolute left-[6%] md:left-[10%] -bottom-10 md:-bottom-20 w-[58%] md:w-[42%] max-w-[640px] z-20 pointer-events-none">
-          <div
-            className="rounded-[28px] overflow-hidden"
-            style={{
-              boxShadow: "0 30px 60px -20px rgba(60,66,53,0.6)",
-              border: "1px solid rgba(215,209,198,0.1)",
-            }}
-          >
-            <img
-              src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1400&q=80"
-              alt="someone being interviewed at a warm wooden table, soft window light"
-              className="w-full h-[260px] md:h-[360px] object-cover"
-              style={{ filter: "saturate(0.85) sepia(0.12) brightness(0.95)" }}
-            />
-          </div>
-        </div>
-
         {/* Frosted info card */}
         <div className="absolute right-4 md:right-8 bottom-6 md:bottom-10 z-30 frosted rounded-2xl p-4 pr-6 flex items-center gap-3 max-w-[88%]">
           <div
