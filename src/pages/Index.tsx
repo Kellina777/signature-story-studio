@@ -270,9 +270,10 @@ const Index = () => {
           <div className="text-[11px] tracking-[0.28em] mb-10" style={{ color: "rgba(215,209,198,0.6)" }}>
             &mdash; how it works
           </div>
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 items-start">
             <article
-              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between"
+              data-parallax="0.18"
+              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between will-change-transform"
               style={{ backgroundColor: "#d7d1c6", color: "#575349" }}
             >
               <div className="text-[12px] tracking-[0.28em]" style={{ color: "rgba(87,83,73,0.55)" }}>01</div>
@@ -285,7 +286,8 @@ const Index = () => {
               </div>
             </article>
             <article
-              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between"
+              data-parallax="0.08"
+              className="rounded-[28px] p-8 md:p-10 min-h-[360px] flex flex-col justify-between will-change-transform"
               style={{ backgroundColor: "#d7d1c6", color: "#575349" }}
             >
               <div className="text-[12px] tracking-[0.28em]" style={{ color: "rgba(87,83,73,0.55)" }}>02</div>
