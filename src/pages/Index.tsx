@@ -37,6 +37,38 @@ const Index = () => {
         }
         @media (max-width: 768px) { .hero-bg { background-attachment: scroll; } }
         ::selection { background: #fb7339; color: #f2efe9; }
+
+        /* parallax section 2 — sticky heading + scroll-driven drift */
+        .parallax-stage { position: relative; }
+        .parallax-sticky {
+          position: sticky;
+          top: 18vh;
+          will-change: transform;
+        }
+        @supports (animation-timeline: view()) {
+          .parallax-headline {
+            animation: drift-up linear both;
+            animation-timeline: view();
+            animation-range: cover 0% cover 100%;
+          }
+          .parallax-soft {
+            animation: drift-down linear both;
+            animation-timeline: view();
+            animation-range: cover 0% cover 100%;
+          }
+          @keyframes drift-up {
+            from { transform: translate3d(0, 12vh, 0); }
+            to   { transform: translate3d(0, -14vh, 0); }
+          }
+          @keyframes drift-down {
+            from { transform: translate3d(0, -4vh, 0); opacity: .6; }
+            to   { transform: translate3d(0, 8vh, 0); opacity: 1; }
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .parallax-headline, .parallax-soft { animation: none !important; }
+          .parallax-sticky { position: static; }
+        }
       `}</style>
 
       {/* NAVBAR — floating pill, doesn't touch edges */}
