@@ -1,6 +1,7 @@
 // "find your signature story" — landing page
 // Palette is locked: #f2efe9 / #3c4235 / #d7d1c6 / #fb7339 / #575349
 // DM Sans, lowercase, heavy. No black, no white, no blue, no cool grey.
+import heroTedTalk from "@/assets/hero-tedtalk.jpg";
 
 const Index = () => {
   return (
@@ -29,11 +30,10 @@ const Index = () => {
           background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(60,66,53,0.55) 100%);
         }
         .hero-bg {
-          background-image: url('https://images.unsplash.com/photo-1573497019418-b400bb3ab074?auto=format&fit=crop&w=2400&q=80');
           background-size: cover;
           background-position: center;
           background-attachment: fixed;
-          filter: saturate(0.85) sepia(0.18) brightness(0.78);
+          filter: saturate(0.9) sepia(0.12) brightness(0.82) contrast(1.05);
         }
         @media (max-width: 768px) { .hero-bg { background-attachment: scroll; } }
         ::selection { background: #fb7339; color: #f2efe9; }
@@ -121,7 +121,7 @@ const Index = () => {
         className="relative w-full overflow-hidden"
         style={{ backgroundColor: "#3c4235", height: "100svh", minHeight: 680 }}
       >
-        <div className="absolute inset-0 hero-bg" />
+        <div className="absolute inset-0 hero-bg" style={{ backgroundImage: `url(${heroTedTalk})` }} />
         <div className="absolute inset-0 vignette" />
 
         {/* Headline */}
