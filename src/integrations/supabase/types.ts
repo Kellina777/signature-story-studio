@@ -14,7 +14,115 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      blueprints: {
+        Row: {
+          created_at: string
+          id: string
+          interview_id: string
+          sections: Json
+          share_slug: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interview_id: string
+          sections: Json
+          share_slug?: string
+          title?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interview_id?: string
+          sections?: Json
+          share_slug?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blueprints_interview_id_fkey"
+            columns: ["interview_id"]
+            isOneToOne: false
+            referencedRelation: "interviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interview_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          interview_id: string
+          kind: string
+          role: string
+          step: number
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          interview_id: string
+          kind: string
+          role: string
+          step: number
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          interview_id?: string
+          kind?: string
+          role?: string
+          step?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interview_messages_interview_id_fkey"
+            columns: ["interview_id"]
+            isOneToOne: false
+            referencedRelation: "interviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interviews: {
+        Row: {
+          awaiting: string
+          created_at: string
+          current_step: number
+          id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          awaiting?: string
+          created_at?: string
+          current_step?: number
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          awaiting?: string
+          created_at?: string
+          current_step?: number
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
