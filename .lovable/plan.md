@@ -1,97 +1,40 @@
-## what we're building
+# Remove auth, gate results with email
 
-A single static `index.html` file (Tailwind CDN + Google Fonts DM Sans, zero JavaScript) for an AI story coach product called **"find your signature story"**. HERO-heavy, premium-1974-redesigned-in-Milan-2024 feel. Will replace the current placeholder so it loads at the project's root URL.
+## New flow
 
-## the laws (non-negotiable)
+1. Visitor lands on `/` → clicks "begin" → goes straight to `/interview` (no login).
+2. Answers 8 hybrid questions anonymously (session held in `localStorage` + DB row keyed by an anonymous session id).
+3. After the final follow-up answer, an **email gate** appears: "where should we send your signature story?" — single field, single button.
+4. On submit: blueprint is generated, saved with the email, and the user is redirected to `/blueprint/:slug` where they can read, copy sections, copy a share link, and **download as PDF**.
+5. No password, no magic link, no account. Email is captured as a lead, full stop.
 
-**Palette** (only these, no black/white/blue/cool grey ever):
-- page base `#f2efe9` · dark section `#3c4235` · card surface `#d7d1c6`
-- accent/CTA `#fb7339` · body text `#575349` · type on dark `#d7d1c6`
+## Database changes (one migration)
 
-**Type**: DM Sans only. Heavy weights (700/900). Lowercase. Tight tracking. Big enough to make you lean back (hero headline ~clamp(4rem, 12vw, 11rem), line-height ~0.9).
+- `interviews`: make `user_id` nullable; add `session_id text` (anonymous session token) and `email text`.
+- `interview_messages`: make `user_id` nullable; add `session_id text`.
+- `blueprints`: make `user_id` nullable; add `email text not null`.
+- Replace RLS:
+  - `interviews` / `interview_messages`: allow **anonymous insert/select/update/delete** scoped to a matching `session_id` passed in the row (RLS policy: `session_id is not null`). Since there's no auth, we rely on the unguessable session token + RLS allowing rows where `user_id is null`. (Acceptable for a lead-magnet flow; the only sensitive thing is the user's own draft answers, protected by an unguessable UUID held client-side.)
+  - `blueprints`: keep public-read by `share_slug` (already true); allow anonymous insert when `user_id is null`.
+- Drop the old "owner …" policies that require `auth.uid()`.
 
-## page structure
+## Frontend changes
 
-```text
-┌─────────────────────────────────────────────────┐
-│  [floating pill navbar — does not touch edges]  │  ← parchment, logo+label left, orange CTA right
-│                                                 │
-│   hero (full-bleed, dark #3c4235 background)    │
-│   ┌─ headline, lowercase, left-aligned ──────┐  │
-│   │  "find your                              │  │
-│   │   signature                              │  │
-│   │   story."   ← massive, slightly above ctr│  │
-│   └────────────────────────────────────────┬─┘  │
-│   [hero image bleeds OVER bottom of type]  │    │  ← z-index layered, not flat behind
-│                              ┌─────────────┴──┐ │
-│                              │ frosted card    │ │  ← rgba(87,83,73,0.45) + backdrop-blur
-│                              │ "1/5 · the     │ │     bottom-right, warm brown blur
-│                              │  interview"    │ │
-│                              └────────────────┘ │
-└─────────────────────────────────────────────────┘
-   ↓ scroll
-┌─────────────────────────────────────────────────┐
-│  section 2 — what it is (light #f2efe9)         │
-│   oversized lowercase pull quote, left-aligned  │
-│   "storytellers teaching storytellers, the way  │
-│    coaches teach coaches."                      │
-│   small body paragraph beneath, generous space  │
-└─────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────┐
-│  section 3 — the 3 steps (dark #3c4235)         │
-│   01 it interviews you                          │
-│   02 it listens and finds the thread            │
-│   03 it builds your signature story blueprint   │
-│   numbered, lowercase, big, on card surfaces    │
-└─────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────┐
-│  section 4 — who it's for (light)               │
-│   5 small card-surface tiles in a soft grid:    │
-│   coach · realtor · chiropractor · speaker ·    │
-│   business owner — each with a one-liner        │
-└─────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────┐
-│  section 5 — the blueprint deliverables (dark)  │
-│   list of 7 items (origin story, core message,  │
-│   unique value, ideal client, content pillars,  │
-│   offer alignment, bio) — heavy lowercase type  │
-└─────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────┐
-│  closing CTA (light, hero-scale type)           │
-│   "you go in not knowing. you come out          │
-│    knowing exactly who you are."                │
-│   [orange pill: begin your interview →]         │
-└─────────────────────────────────────────────────┘
-```
+- **`src/pages/Interview.tsx`**: remove the auth gate. On mount, read/create a `signature_session_id` in `localStorage`; use it instead of `userId`. After step 8's follow-up answer, instead of generating immediately, set `phase = "email"` and render the email gate (one input, one button, copy: "we'll send a copy to this address. no spam, no account."). On submit → call `generate-blueprint` → insert blueprint with email + null user_id → navigate to `/blueprint/:slug`.
+- **`src/pages/Blueprint.tsx`**: keep public read by slug; add **Download PDF** button (use `window.print()` with a print-friendly stylesheet — no new deps, prints clean to PDF from any browser). Keep copy-section and copy-share-link.
+- **`src/pages/Index.tsx`**: change all CTAs to point to `/interview` (already do); remove any "sign in" link if present.
+- **`src/App.tsx`**: keep `/auth` and `/reset-password` routes for now but unlinked (or remove — see Question 1 below).
+- **`supabase/functions/generate-blueprint`**: no change needed; it doesn't depend on auth.
+- **`supabase/functions/interview-followup`**: no change needed.
 
-## hero details
+## What stays the same
 
-- Full-bleed background: a warm, dusty cinematic photo (interview/portrait scene — someone being interviewed, soft window light, warm tones). Sourced from Unsplash via direct URL so the file stays single.
-- Subtle vignette using the dark palette color (no black) to seat the type.
-- Headline absolutely positioned, left-aligned, slightly above vertical center.
-- A second product/scene image (a portrait of someone speaking to a laptop — the "telling your story to a clone" idea) positioned bottom-left/center, layered with `z-index` so it bleeds OVER the descenders of the headline.
-- Frosted info card bottom-right: `background: rgba(87,83,73,0.45)`, `backdrop-filter: blur(20px)`, rounded-2xl, contains a small mark + "1/5 · the interview" label in tracked uppercase-but-tiny DM Sans.
+- 8 core questions, hybrid flow, follow-ups, blueprint structure, design system.
 
-## navbar details
+## Open question
 
-- Floating pill, `#f2efe9` background, sits ~16px from top with side margins (does not touch edges).
-- Left side: small rounded square logo tile + tiny section label.
-- Right side: hamburger glyph + orange `#fb7339` rounded pill "order"-equivalent → here it says **"begin"**.
-- Aesop-level restraint: nothing else. No nav links visible. Lots of negative space.
+**Should we delete `/auth`, `/reset-password`, and the auth pages entirely?** They're unused after this change. I recommend deleting them to keep the surface clean — confirm in chat after approving the plan and I'll remove them in the same pass (or leave them if you want a future "save my story" upsell).
 
-## technical notes
+## Note on emailing the PDF
 
-- Single `index.html` at project root (replaces `src/pages/Index.tsx` route content by serving the static file). Since this project is React/Vite, the cleanest way to honor the "single HTML file, Tailwind CDN, no JS" brief is to put the file at `public/signature-story.html` AND also rewrite `src/pages/Index.tsx` to render the same markup with Tailwind classes (Tailwind is already in the project). I'll do both:
-  1. `public/signature-story.html` — the literal single-file deliverable (Tailwind CDN, Google Fonts, no JS) that the user can download/share.
-  2. `src/pages/Index.tsx` — same design rendered via the project's existing Tailwind so the live preview shows it at `/`.
-- Add DM Sans to `index.html` `<head>` (Google Fonts) and set it as the default font family.
-- Use arbitrary Tailwind values (`bg-[#f2efe9]`, `text-[#575349]`, etc.) to enforce the exact palette without touching the design tokens.
-- No JS, no animation libs. Any "parallax energy" comes from `background-attachment: fixed` on the hero and generous scale — purely CSS.
-
-## images
-
-Will use 2-3 carefully chosen Unsplash photos via direct URL (warm-toned interview / portrait / hands-on-laptop scenes). No RVs, no outdoors. If any feel cool-toned in preview I'll swap them.
-
-## out of scope
-
-No working chat, no form, no backend. The "begin" CTA is a visual anchor only (anchors to the closing section).
+You said "give them the lead magnet which they can download." The plan above gives an in-browser download (print → PDF). If you also want the PDF *emailed* to the address they enter, that's a second step requiring email infrastructure setup (sender domain + transactional email). I've left it out of this plan; tell me if you want it and I'll add it as a follow-up.

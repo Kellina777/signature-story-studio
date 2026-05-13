@@ -17,30 +17,33 @@ export type Database = {
       blueprints: {
         Row: {
           created_at: string
+          email: string | null
           id: string
           interview_id: string
           sections: Json
           share_slug: string
           title: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
+          email?: string | null
           id?: string
           interview_id: string
           sections: Json
           share_slug?: string
           title?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
+          email?: string | null
           id?: string
           interview_id?: string
           sections?: Json
           share_slug?: string
           title?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -60,8 +63,9 @@ export type Database = {
           interview_id: string
           kind: string
           role: string
+          session_id: string | null
           step: number
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           content: string
@@ -70,8 +74,9 @@ export type Database = {
           interview_id: string
           kind: string
           role: string
+          session_id?: string | null
           step: number
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           content?: string
@@ -80,8 +85,9 @@ export type Database = {
           interview_id?: string
           kind?: string
           role?: string
+          session_id?: string | null
           step?: number
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -98,28 +104,34 @@ export type Database = {
           awaiting: string
           created_at: string
           current_step: number
+          email: string | null
           id: string
+          session_id: string | null
           status: string
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           awaiting?: string
           created_at?: string
           current_step?: number
+          email?: string | null
           id?: string
+          session_id?: string | null
           status?: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           awaiting?: string
           created_at?: string
           current_step?: number
+          email?: string | null
           id?: string
+          session_id?: string | null
           status?: string
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }
