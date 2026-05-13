@@ -8,7 +8,6 @@ import { palette, baseStyle } from "@/lib/theme";
 type Section = { key: string; title: string; body: string };
 type BP = {
   id: string;
-  user_id: string;
   share_slug: string;
   title: string;
   sections: Section[];
@@ -19,12 +18,9 @@ const Blueprint = () => {
   const { slug } = useParams<{ slug: string }>();
   const [bp, setBp] = useState<BP | null>(null);
   const [loading, setLoading] = useState(true);
-  const [me, setMe] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
-      const { data: sess } = await supabase.auth.getSession();
-      setMe(sess.session?.user.id ?? null);
       const { data, error } = await supabase
         .from("blueprints")
         .select("*")
