@@ -118,7 +118,7 @@ const Blueprint = () => {
         </h1>
         <p className="mt-6 text-[14px]" style={{ color: "rgba(87,83,73,0.6)" }}>
           {new Date(bp.created_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
-          {!isOwner && me === null ? " · viewing a shared blueprint" : ""}
+          
         </p>
       </section>
 
