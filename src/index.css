@@ -103,3 +103,9 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@media print {
+  .no-print { display: none !important; }
+  .blueprint-page { background: white !important; }
+  @page { margin: 0.6in; }
+}
