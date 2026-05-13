@@ -161,24 +161,22 @@ const Blueprint = () => {
           ))}
         </div>
 
-        {isOwner && (
-          <div className="mt-20 flex flex-wrap items-center gap-3">
-            <Link
-              to="/interview"
-              className="h-12 px-6 inline-flex items-center rounded-full text-[11px] tracking-[0.22em] font-bold"
-              style={{ backgroundColor: palette.dark, color: palette.cream }}
-            >
-              start a new interview
-            </Link>
-            <button
-              onClick={copyShare}
-              className="h-12 px-6 rounded-full text-[11px] tracking-[0.22em] font-medium"
-              style={{ backgroundColor: palette.cream, color: palette.ink }}
-            >
-              copy share link
-            </button>
-          </div>
-        )}
+        <div className="mt-20 flex flex-wrap items-center gap-3 no-print">
+          <Link
+            to="/interview"
+            className="h-12 px-6 inline-flex items-center rounded-full text-[11px] tracking-[0.22em] font-bold"
+            style={{ backgroundColor: palette.dark, color: palette.cream }}
+          >
+            start a new interview
+          </Link>
+          <button
+            onClick={downloadPdf}
+            className="h-12 px-6 rounded-full text-[11px] tracking-[0.22em] font-medium"
+            style={{ backgroundColor: palette.cream, color: palette.ink }}
+          >
+            download pdf
+          </button>
+        </div>
       </section>
     </div>
   );
