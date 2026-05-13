@@ -71,22 +71,29 @@ const Blueprint = () => {
     );
   }
 
-  const isOwner = me && me === bp.user_id;
+  const downloadPdf = () => window.print();
 
   return (
-    <div className="min-h-screen lowercase" style={baseStyle}>
+    <div className="min-h-screen lowercase blueprint-page" style={baseStyle}>
       {/* nav */}
-      <header className="px-6 sm:px-10 md:px-14 pt-6 pb-4 flex items-center justify-between gap-3">
+      <header className="px-6 sm:px-10 md:px-14 pt-6 pb-4 flex items-center justify-between gap-3 no-print">
         <Link to="/" className="text-[12px] tracking-[0.22em]" style={{ color: palette.inkSoft }}>
           &larr; signature
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap justify-end">
           <button
             onClick={copyShare}
             className="h-10 px-5 rounded-full text-[11px] tracking-[0.2em] font-medium"
             style={{ backgroundColor: palette.cream, color: palette.ink }}
           >
             copy share link
+          </button>
+          <button
+            onClick={downloadPdf}
+            className="h-10 px-5 rounded-full text-[11px] tracking-[0.2em] font-medium"
+            style={{ backgroundColor: palette.cream, color: palette.ink }}
+          >
+            download pdf
           </button>
           <button
             onClick={copyAll}
