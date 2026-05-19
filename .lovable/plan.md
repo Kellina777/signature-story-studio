@@ -1,40 +1,71 @@
-# Remove auth, gate results with email
+# Signature Story — MC-style interview revamp
 
-## New flow
+Replace the open-text interview with the 5 narrative questions below, presented as **multiple-choice in a lifted/floating panel** styled in DM Sans (matching the rest of the site).
 
-1. Visitor lands on `/` → clicks "begin" → goes straight to `/interview` (no login).
-2. Answers 8 hybrid questions anonymously (session held in `localStorage` + DB row keyed by an anonymous session id).
-3. After the final follow-up answer, an **email gate** appears: "where should we send your signature story?" — single field, single button.
-4. On submit: blueprint is generated, saved with the email, and the user is redirected to `/blueprint/:slug` where they can read, copy sections, copy a share link, and **download as PDF**.
-5. No password, no magic link, no account. Email is captured as a lead, full stop.
+## The 5 questions
 
-## Database changes (one migration)
+1. Who do you help and what problem do you solve?
+2. Why does this work matter to YOU personally?
+3. What do most people in your world get wrong?
+4. What's the one transformation you create?
+5. If your work disappeared tomorrow, who would suffer most — and why?
 
-- `interviews`: make `user_id` nullable; add `session_id text` (anonymous session token) and `email text`.
-- `interview_messages`: make `user_id` nullable; add `session_id text`.
-- `blueprints`: make `user_id` nullable; add `email text not null`.
-- Replace RLS:
-  - `interviews` / `interview_messages`: allow **anonymous insert/select/update/delete** scoped to a matching `session_id` passed in the row (RLS policy: `session_id is not null`). Since there's no auth, we rely on the unguessable session token + RLS allowing rows where `user_id is null`. (Acceptable for a lead-magnet flow; the only sensitive thing is the user's own draft answers, protected by an unguessable UUID held client-side.)
-  - `blueprints`: keep public-read by `share_slug` (already true); allow anonymous insert when `user_id is null`.
-- Drop the old "owner …" policies that require `auth.uid()`.
+## The MC challenge (and the fix)
 
-## Frontend changes
+These questions don't have pre-set answers — they're personal. To stay "as close to MC as possible" without losing the story, options are **AI-generated per question** from the answers so far:
 
-- **`src/pages/Interview.tsx`**: remove the auth gate. On mount, read/create a `signature_session_id` in `localStorage`; use it instead of `userId`. After step 8's follow-up answer, instead of generating immediately, set `phase = "email"` and render the email gate (one input, one button, copy: "we'll send a copy to this address. no spam, no account."). On submit → call `generate-blueprint` → insert blueprint with email + null user_id → navigate to `/blueprint/:slug`.
-- **`src/pages/Blueprint.tsx`**: keep public read by slug; add **Download PDF** button (use `window.print()` with a print-friendly stylesheet — no new deps, prints clean to PDF from any browser). Keep copy-section and copy-share-link.
-- **`src/pages/Index.tsx`**: change all CTAs to point to `/interview` (already do); remove any "sign in" link if present.
-- **`src/App.tsx`**: keep `/auth` and `/reset-password` routes for now but unlinked (or remove — see Question 1 below).
-- **`supabase/functions/generate-blueprint`**: no change needed; it doesn't depend on auth.
-- **`supabase/functions/interview-followup`**: no change needed.
+- Q1 is the only one with no prior context, so it gets a small typed line (1 sentence) — this seeds everything else.
+- Q2–Q5: a new edge function (`generate-options`) takes the prior answers and produces **4 distinct, plausible options** the user can click. Each card is a full sentence in their voice, not a label.
+- Every question also includes **"None of these — let me say it myself"** which opens a small text field.
+- The AI follow-up ("a deeper look") is dropped — the chosen option *is* the answer, keeps friction low.
 
-## What stays the same
+## The panel UI
 
-- 8 core questions, hybrid flow, follow-ups, blueprint structure, design system.
+A single centered, lifted card on a soft backdrop — not a chat thread.
 
-## Open question
+```text
+   ─ question 2 of 5 ──────── progress ███████░░░░░░░ ─
+  ┌──────────────────────────────────────────────────┐
+  │                                                  │
+  │  Why does this work matter to YOU personally?   │
+  │  the real reason — what made this your mission?  │
+  │                                                  │
+  │  ┌────────────────────────────────────────────┐  │
+  │  │  ◯  Option A — full sentence in your voice │  │
+  │  └────────────────────────────────────────────┘  │
+  │  ┌────────────────────────────────────────────┐  │
+  │  │  ◯  Option B …                             │  │
+  │  └────────────────────────────────────────────┘  │
+  │  ┌────────────────────────────────────────────┐  │
+  │  │  ◯  Option C …                             │  │
+  │  └────────────────────────────────────────────┘  │
+  │  ┌────────────────────────────────────────────┐  │
+  │  │  ◯  Option D …                             │  │
+  │  └────────────────────────────────────────────┘  │
+  │  ┌────────────────────────────────────────────┐  │
+  │  │  ✎  None of these — let me say it myself   │  │
+  │  └────────────────────────────────────────────┘  │
+  │                                                  │
+  │                              [ back ]  [ next ] │
+  └──────────────────────────────────────────────────┘
+```
 
-**Should we delete `/auth`, `/reset-password`, and the auth pages entirely?** They're unused after this change. I recommend deleting them to keep the surface clean — confirm in chat after approving the plan and I'll remove them in the same pass (or leave them if you want a future "save my story" upsell).
+- DM Sans throughout (already the site font).
+- Cream card, soft drop shadow + subtle lift on hover, rounded-3xl.
+- One question on screen at a time; smooth fade between questions.
+- Progress bar stays at the top; orange accent for the selected card.
+- The email gate after Q5 stays exactly as it is today.
 
-## Note on emailing the PDF
+## What changes in code
 
-You said "give them the lead magnet which they can download." The plan above gives an in-browser download (print → PDF). If you also want the PDF *emailed* to the address they enter, that's a second step requiring email infrastructure setup (sender domain + transactional email). I've left it out of this plan; tell me if you want it and I'll add it as a follow-up.
+- `src/lib/interviewQuestions.ts` — replace the 8 questions with these 5; mark Q1 as `type: "text"`, Q2–Q5 as `type: "choice"`.
+- `src/pages/Interview.tsx` — rewrite as a single-panel stepper (no chat transcript, no textarea-first flow). Lifted card, radio-style option list, "say it myself" expander.
+- New edge function `supabase/functions/generate-options/index.ts` — given `{ question, priorAnswers }` returns `{ options: string[] }` (4 items) using Lovable AI (`google/gemini-2.5-flash`).
+- `supabase/functions/interview-followup` — no longer called; leave the file in place (unused) or delete in a follow-up.
+- `supabase/functions/generate-blueprint` — unchanged; it already takes the transcript and the chosen options read just like answers.
+- DB: no schema change needed. The chosen option text is stored in `interview_messages.content` as today.
+
+## Out of scope
+
+- No changes to the landing page, email gate, blueprint page, or theme tokens.
+- No login. Session ID + email gate stays.
